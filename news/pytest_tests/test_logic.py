@@ -69,31 +69,27 @@ def test_author_can_edit_comment(
         comment,
         news_detail_url,
         comment_edit_url,
-        news,
-        author,
 ):
     url_to_comments = f'{news_detail_url}#comments'
     response = author_client.post(comment_edit_url, data=FORM_DATA)
     assertRedirects(response, url_to_comments)
     comment_from_db = Comment.objects.get(id=comment.id)
     assert comment_from_db.text == FORM_DATA['text']
-    assert comment_from_db.news == news
-    assert comment_from_db.author == author
+    assert comment_from_db.news == comment.news
+    assert comment_from_db.author == comment.author
 
 
 def test_user_cant_edit_comment_of_another_user(
         admin_client,
         comment,
         comment_edit_url,
-        news,
-        author,
 ):
     response = admin_client.post(comment_edit_url, FORM_DATA)
     assert response.status_code == HTTPStatus.NOT_FOUND
     comment_from_db = Comment.objects.get(id=comment.id)
     assert comment.text == comment_from_db.text
-    assert comment_from_db.news == news
-    assert comment_from_db.author == author
+    assert comment_from_db.news == comment.news
+    assert comment_from_db.author == comment.author
 
 
 def test_user_cant_delete_comment_of_another_user(

@@ -3,19 +3,20 @@ from http import HTTPStatus
 import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
+from pytest_lazyfixture import lazy_fixture as lf
 
 
-LOGIN_URL = reverse('users:login')
 LOGOUT_URL = reverse('users:logout')
 SIGNUP_URL = reverse('users:signup')
-DETAIL_URL = pytest.lazy_fixture('news_detail_url')
-HOME_URL = pytest.lazy_fixture('home_url')
-DELETE_URL = pytest.lazy_fixture('comment_delete_url')
-DETAIL_URL = pytest.lazy_fixture('news_detail_url')
-EDIT_URL = pytest.lazy_fixture('comment_edit_url')
-CLIENT = pytest.lazy_fixture('client')
-AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
-NOT_AUTHOR_CLIENT = pytest.lazy_fixture('not_author_client')
+LOGIN_URL = lf('login_url')
+DETAIL_URL = lf('news_detail_url')
+HOME_URL = lf('home_url')
+DELETE_URL = lf('comment_delete_url')
+DETAIL_URL = lf('news_detail_url')
+EDIT_URL = lf('comment_edit_url')
+CLIENT = lf('client')
+AUTHOR_CLIENT = lf('author_client')
+NOT_AUTHOR_CLIENT = lf('not_author_client')
 
 pytestmark = pytest.mark.django_db
 
